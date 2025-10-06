@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% block title %}Solicitar Asesoría{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Solicitar Asesoría</h4>
+                    <div class="mt-2">
+                        <a href="/citas" class="text-white text-decoration-none">Inicio</a> |
+                        <a href="/usuarios/logout" class="text-white text-decoration-none">Cerrar Sesión</a>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    {% with messages = get_flashed_messages(category_filter=['error']) %}
+                    {% if messages %}
+                    <div class="alert alert-danger">
+                        {% for message in messages %}
+                        <p class="mb-1">⚠️ {{ message }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+
+                    <form action="/citas/crear_plan" method="post">
+                        <div class="mb-3">
+                            <label for="destination" class="form-label">Tema:</label>
+                            <input type="text" class="form-control" name="destination" value="Mongo DB" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="travel_start_date" class="form-label">Fecha:</label>
+                            <input type="date" class="form-control" name="travel_start_date" value="2024/06/21"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="duracion_horas" class="form-label">Duración (horas):</label>
+                            <input type="number" class="form-control" name="duracion_horas" min="1" max="8" value="0"
+                                required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="plan" class="form-label">Notas:</label>
+                            <textarea class="form-control" name="plan" rows="4"
+                                placeholder="Describe qué tipo de ayuda necesitas..." required></textarea>
+                        </div>
+
+
+
+                        <div class="mb-3">
+                            <label for="tutor" class="form-label">Tutor:</label>
+                            <select class="form-select" name="tutor" required>
+                                <option value="">Selecciona un tutor</option>
+                                {% for tutor in tutores %}
+                                <option value="{{ tutor.id }}" {% if tutor.nombre=='Juan' %}selected{% endif %}>{{
+                                    tutor.nombre }} {{ tutor.apellido }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="form-text">
+
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const fechaInput = document.querySelector('input[name="travel_start_date"]');
+        const duracionInput = document.querySelector('input[name="duracion_horas"]');
+        const notasTextarea = document.querySelector('textarea[name="plan"]');
+
+        // Establecer fecha mínima como hoy
+        const today = new Date().toISOString().split('T')[0];
+        fechaInput.min = today;
+
+        // Validar que no sea una fecha en el pasado
+        fechaInput.addEventListener('change', function () {
+            if (this.value < today) {
+                alert('No puedes seleccionar una fecha en el pasado');
+                this.value = today;
+            }
+        });
+
+        // Validar duración (máximo 50 caracteres como número)
+        duracionInput.addEventListener('input', function () {
+            if (this.value.length > 50) {
+                alert('La duración no debe tener más de 50 caracteres');
+                this.value = this.value.substring(0, 50);
+            }
+            if (this.value < 1) {
+                this.value = 1;
+            }
+            if (this.value > 8) {
+                this.value = 8;
+            }
+        });
+
+        // Validar notas (máximo 50 caracteres)
+        notasTextarea.addEventListener('input', function () {
+            if (this.value.length > 50) {
+                alert('Las notas no pueden tener más de 50 caracteres');
+                this.value = this.value.substring(0, 50);
+            }
+        });
+
+        // Mostrar contador de caracteres para notas
+        const contadorNotas = document.createElement('small');
+        contadorNotas.className = 'form-text text-muted';
+        notasTextarea.parentNode.appendChild(contadorNotas);
+
+        function actualizarContador() {
+            const restantes = 50 - notasTextarea.value.length;
+            contadorNotas.textContent = `Caracteres restantes: ${restantes}`;
+            if (restantes < 10) {
+                contadorNotas.className = 'form-text text-danger';
+            } else {
+                contadorNotas.className = 'form-text text-muted';
+            }
+        }
+
+        notasTextarea.addEventListener('input', actualizarContador);
+        actualizarContador();
+    });
+</script>
+{% endblock %}

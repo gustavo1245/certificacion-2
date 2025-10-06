@@ -1,0 +1,297 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - Asesorías{% endblock %}
+{% block content %}
+<div class="container-fluid mt-4">
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="mb-1">Bienvenid@, {{ usuario.nombre|capitalize }}</h1>
+                    <div class="text-muted">
+                        <a href="/citas/test_data" class="text-decoration-none text-warning">🧪 Crear Datos Prueba</a>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <div class="d-flex gap-2 align-items-center">
+                        <a href="/citas/solicitar_asesoria" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-plus me-1"></i>Solicitar Asesoría
+                        </a>
+                        <a href="/usuarios/logout" class="btn btn-outline-danger btn-sm">
+                            <i class="fas fa-sign-out-alt me-1"></i>Cerrar Sesión
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-md-3 col-lg-2">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Todas las Asesorías</h5>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="col-md-9 col-lg-7">
+            <div class="row">
+                {% if todas_las_asesorias %}
+                {% for asesoria in todas_las_asesorias %}
+                <div class="col-12 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <h6 class="card-title mb-1">
+                                        <strong>Solicitante:</strong> {{ asesoria.autor_nombre }} {{
+                                        asesoria.autor_apellido }}
+                                    </h6>
+                                    <p class="card-text mb-2">
+                                        <strong>Duración:</strong> 2 horas
+                                    </p>
+                                    <p class="card-text">
+                                        {{ asesoria.plan[:100] }}{% if asesoria.plan|length > 100 %}...{% endif %}
+                                    </p>
+                                </div>
+                                <div class="ms-3 text-end">
+                                    <div class="mb-2">
+                                        <a href="/citas/descripcion/{{ asesoria.id }}"
+                                            class="btn btn-primary btn-sm">Ver</a>
+                                        {% if asesoria.autor_id == usuario.id %}
+                                        <a href="/citas/editar/{{ asesoria.id }}"
+                                            class="btn btn-outline-secondary btn-sm">Editar</a>
+                                        <a href="/citas/eliminar_plan/{{ asesoria.id }}"
+                                            class="btn btn-outline-danger btn-sm"
+                                            onclick="return confirm('¿Estás seguro de que quieres eliminar esta asesoría?')">Borrar</a>
+                                        {% else %}
+                                        <button class="btn btn-outline-secondary btn-sm" disabled>Editar</button>
+                                        <button class="btn btn-outline-danger btn-sm" disabled>Borrar</button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        <h5>No hay asesorías disponibles</h5>
+                        <p>¡Sé el primero en crear una asesoría!</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-md-12 col-lg-3">
+            <div class="row">
+
+                <div class="col-md-6 col-lg-12 mb-3">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            <h6 class="mb-0" style="color: black;">📚 Tutoriza</h6>
+                        </div>
+                        <div class="card-body">
+
+                            {% if mis_asesorias %}
+                            <h6 class="text-primary">Mis Asesorías Creadas:</h6>
+                            {% for mi_asesoria in mis_asesorias %}
+                            <div class="border-bottom pb-2 mb-3 sidebar-asesoria">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <strong class="text-dark">{{ mi_asesoria.destination }}</strong><br>
+                                        <small class="text-muted">
+                                            <i class="fas fa-calendar me-1"></i>
+                                            Creada: {{ mi_asesoria.creado_en|format_date if mi_asesoria.creado_en else
+                                            'Fecha no disponible' }}
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="mt-2 d-flex flex-wrap gap-1">
+                                    <a href="/citas/descripcion/{{ mi_asesoria.id }}" class="btn btn-primary btn-sm"
+                                        title="Ver detalles">
+                                        <i class="fas fa-eye me-1"></i>Ver</a>
+                                    <a href="/citas/editar/{{ mi_asesoria.id }}" class="btn btn-warning btn-sm"
+                                        title="Editar asesoría">
+                                        <i class="fas fa-edit me-1"></i>Editar</a>
+                                    <a href="/citas/eliminar_plan/{{ mi_asesoria.id }}" class="btn btn-danger btn-sm"
+                                        title="Eliminar asesoría"
+                                        onclick="return confirm('¿Estás seguro de que quieres eliminar esta asesoría?')">
+                                        <i class="fas fa-trash me-1"></i>Borrar</a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% else %}
+                            <p class="text-muted">No has creado asesorías aún</p>
+                            <a href="/citas/solicitar_asesoria" class="btn btn-primary btn-sm">Crear Primera
+                                Asesoría</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="position-fixed bottom-0 end-0 m-4">
+        <button class="btn btn-success btn-lg rounded-circle" data-bs-toggle="modal"
+            data-bs-target="#nuevaAsesoriaModal" style="width: 60px; height: 60px;">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+</div>
+
+
+<div class="modal fade" id="nuevaAsesoriaModal" tabindex="-1" aria-labelledby="nuevaAsesoriaModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="nuevaAsesoriaModalLabel">✨ Solicitar Nueva Asesoría</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/citas/crear_plan" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="destination" class="form-label">Tema:</label>
+                        <select class="form-select" name="destination" required>
+                            <option value="">Selecciona un tema</option>
+                            <option value="Flask">Flask</option>
+                            <option value="Bases de Datos">Bases de Datos</option>
+                            <option value="Spring Data">Spring Data</option>
+                            <option value="OOP">OOP</option>
+                            <option value="Python">Python</option>
+                            <option value="JavaScript">JavaScript</option>
+                            <option value="HTML/CSS">HTML/CSS</option>
+                            <option value="MySQL">MySQL</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="travel_start_date" class="form-label">Fecha:</label>
+                                <input type="date" class="form-control" name="travel_start_date" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="duracion_horas" class="form-label">Duración (horas):</label>
+                                <input type="number" class="form-control" name="duracion_horas" min="1" max="8"
+                                    value="2" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tutor" class="form-label">Tutor:</label>
+                        <select class="form-select" name="tutor" required>
+                            <option value="">Selecciona un tutor</option>
+                            {% for tutor in tutores %}
+                            <option value="{{ tutor.id }}">{{ tutor.nombre }} {{ tutor.apellido }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="plan" class="form-label">Notas:</label>
+                        <textarea class="form-control" name="plan" rows="3"
+                            placeholder="Describe qué tipo de ayuda necesitas..." required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">🚀 Crear Asesoría</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .card {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border: 1px solid #dee2e6;
+    }
+
+    .card-header {
+        font-weight: 600;
+    }
+
+    .bg-warning-subtle {
+        background-color: #fff3cd !important;
+        border: 1px solid #ffd60a;
+    }
+
+    .bg-light {
+        background-color: #f8f9fa !important;
+    }
+
+    .list-group-item {
+        border-left: 3px solid transparent;
+        transition: all 0.2s;
+    }
+
+    .list-group-item:hover {
+        border-left-color: #007bff;
+        background-color: #f8f9fa;
+    }
+
+    .btn-sm {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .position-fixed {
+        z-index: 1030;
+    }
+
+    /* estilos sidebar de asesorias */
+    .sidebar-asesoria {
+        transition: all 0.3s ease;
+    }
+
+    .sidebar-asesoria:hover {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 8px;
+        margin: -4px;
+    }
+
+    .btn-sm {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+    }
+
+    .gap-1 {
+        gap: 0.25rem !important;
+    }
+
+    /* colores botones */
+    .btn-primary.btn-sm {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+
+    .btn-warning.btn-sm {
+        background-color: #ffc107;
+        border-color: #ffc107;
+        color: #000;
+    }
+
+    .btn-danger.btn-sm {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+</style>
+{% endblock %}

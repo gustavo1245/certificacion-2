@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+{% block title %}Vista de Inicio de Sesión{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="text-center mb-5">
+            <h1 class="display-5 mb-3">Bienvenido al Inicio de Sesión</h1>
+            <p class="lead text-muted"></p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <!-- Sección de registro de usuario -->
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h3 class="mb-0">✨ Registrate</h3>
+            </div>
+            <div class="card-body">
+                {% with messages = get_flashed_messages(category_filter=['registro']) %}
+                {% if messages %}
+                <div class="alert alert-warning">
+                    {% for message in messages %}
+                    <p class="mb-1">⚠️ {{ message }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                <form action="/usuarios/procesar_registro" method="post">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre:</label>
+                        <input type="text" class="form-control" name="nombre" placeholder="Tu nombre" required>
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="apellido" class="form-label">Apellido:</label>
+                        <input type="text" class="form-control" name="apellido" placeholder="Tu apellido" required>
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-mail:</label>
+                        <input type="email" class="form-control" name="email" placeholder="tu@email.com" required>
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña:</label>
+                        <input type="password" class="form-control" id="password" name="password"
+                            placeholder="Contraseña" required>
+
+                    </div>
+                    <div class="mb-4">
+                        <label for="confirm_password" class="form-label">Conf. Contraseña:</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password"
+                            placeholder="Confirmar contraseña" required>
+
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Registrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Fin de la sección de registro -->
+
+    <!-- Sección de inicio de sesión -->
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <h3 class="mb-0">🎒 Iniciar Sesión</h3>
+            </div>
+            <div class="card-body">
+                {% with messages = get_flashed_messages(category_filter=['login']) %}
+                {% if messages %}
+                <div class="alert alert-warning">
+                    {% for message in messages %}
+                    <p class="mb-1">⚠️ {{ message }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                <form action="/usuarios/procesar_login" method="post">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-mail:</label>
+                        <input type="email" class="form-control" name="email" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="form-label">Contraseña:</label>
+                        <input type="password" class="form-control" name="password" placeholder="Tu contraseña"
+                            required>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Iniciar Sesión</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Fin de la sección de inicio de sesión -->
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm_password');
+
+        function validatePassword(password) {
+            const hasUpperCase = /[A-Z]/.test(password);
+            const hasNumber = /\d/.test(password);
+            const hasMinLength = password.length >= 8;
+            const hasNoSpaces = !/\s/.test(password);
+
+            return {
+                hasUpperCase,
+                hasNumber,
+                hasMinLength,
+                hasNoSpaces,
+                isValid: hasUpperCase && hasNumber && hasMinLength && hasNoSpaces
+            };
+        }
+
+
+
+        function showPasswordFeedback(input, validation) {
+
+            const existingFeedback = input.parentNode.querySelector('.password-feedback');
+            if (existingFeedback) {
+                existingFeedback.remove();
+            }
+
+            const feedback = document.createElement('div');
+            feedback.className = 'password-feedback mt-1';
+
+            let feedbackHTML = '<small>';
+            feedbackHTML += validation.hasMinLength ?
+                '<span class="text-success">✓ Al menos 8 caracteres</span>' :
+                '<span class="text-danger">✗ Al menos 8 caracteres</span>';
+            feedbackHTML += '<br>';
+            feedbackHTML += validation.hasUpperCase ?
+                '<span class="text-success">✓ Una letra mayúscula</span>' :
+                '<span class="text-danger">✗ Una letra mayúscula</span>';
+            feedbackHTML += '<br>';
+            feedbackHTML += validation.hasNumber ?
+                '<span class="text-success">✓ Un número</span>' :
+                '<span class="text-danger">✗ Un número</span>';
+            feedbackHTML += '<br>';
+            feedbackHTML += validation.hasNoSpaces ?
+                '<span class="text-success">✓ Sin espacios</span>' :
+                '<span class="text-danger">✗ Sin espacios</span>';
+            feedbackHTML += '</small>';
+
+            feedback.innerHTML = feedbackHTML;
+            input.parentNode.appendChild(feedback);
+
+            if (validation.isValid) {
+                input.classList.remove('is-invalid');
+                input.classList.add('is-valid');
+            } else {
+                input.classList.remove('is-valid');
+                input.classList.add('is-invalid');
+            }
+        }
+
+        passwordInput.addEventListener('input', function () {
+            const validation = validatePassword(this.value);
+            showPasswordFeedback(this, validation);
+        });
+
+        // antiespacios
+        passwordInput.addEventListener('keypress', function (e) {
+            if (e.key === ' ') {
+                e.preventDefault();
+            }
+        });
+
+        // antiespacios confirmar contraseña
+        confirmPasswordInput.addEventListener('keypress', function (e) {
+            if (e.key === ' ') {
+                e.preventDefault();
+            }
+        });
+
+
+
+        // Validar que las contraseñas coincidan
+        confirmPasswordInput.addEventListener('input', function () {
+            if (this.value && passwordInput.value) {
+                if (this.value === passwordInput.value) {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                } else {
+                    this.classList.remove('is-valid');
+                    this.classList.add('is-invalid');
+                }
+            }
+        });
+
+        // Validar antes de enviar formulario
+        const form = document.querySelector('form[action="/usuarios/procesar_registro"]');
+        form.addEventListener('submit', function (e) {
+            const validation = validatePassword(passwordInput.value);
+
+            if (!validation.isValid) {
+                e.preventDefault();
+                alert('Por favor, asegúrate de que la contraseña cumpla con todos los requisitos.');
+                return;
+            }
+            if (passwordInput.value !== confirmPasswordInput.value) {
+                e.preventDefault();
+                alert('Las contraseñas no coinciden.');
+                return;
+            }
+        });
+    });
+</script>
+{% endblock %}

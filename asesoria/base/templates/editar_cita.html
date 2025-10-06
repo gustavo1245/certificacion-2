@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% block title %}Editar Asesoría{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">✏️ Editar Asesoría</h4>
+                        <div>
+                            <a href="/citas" class="text-dark text-decoration-none">Inicio</a> |
+                            <a href="/usuarios/logout" class="text-dark text-decoration-none">Cerrar Sesión</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info border-0 mb-3">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Editar información de la asesoría</strong>
+                        <p class="mb-0 mt-1">Modifica los campos que necesites actualizar.</p>
+                    </div>
+
+                    {% with messages = get_flashed_messages(category_filter=['error', 'success']) %}
+                    {% if messages %}
+                    <div class="alert alert-danger">
+                        {% for message in messages %}
+                        <p class="mb-1">⚠️ {{ message }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+
+                    <form action="/citas/actualizar/{{ plan.id }}" method="post">
+                        <div class="mb-3">
+                            <label for="destination" class="form-label">📚 Tema:</label>
+                            <select class="form-select" name="destination" required>
+                                <option value="">Selecciona un tema</option>
+                                <option value="Flask" {% if plan.destination=='Flask' %}selected{% endif %}>Flask
+                                </option>
+                                <option value="Bases de Datos" {% if plan.destination=='Bases de Datos' %}selected{%
+                                    endif %}>Bases de Datos</option>
+                                <option value="Spring Data" {% if plan.destination=='Spring Data' %}selected{% endif %}>
+                                    Spring Data</option>
+                                <option value="OOP" {% if plan.destination=='OOP' %}selected{% endif %}>OOP</option>
+                                <option value="Python" {% if plan.destination=='Python' %}selected{% endif %}>Python
+                                </option>
+                                <option value="JavaScript" {% if plan.destination=='JavaScript' %}selected{% endif %}>
+                                    JavaScript</option>
+                                <option value="HTML/CSS" {% if plan.destination=='HTML/CSS' %}selected{% endif %}>
+                                    HTML/CSS</option>
+                                <option value="MySQL" {% if plan.destination=='MySQL' %}selected{% endif %}>MySQL
+                                </option>
+                                <option value="Otro" {% if plan.destination=='Otro' %}selected{% endif %}>Otro</option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="travel_start_date" class="form-label">📅 Fecha:</label>
+                                    <input type="date" class="form-control" name="travel_start_date"
+                                        value="{{ plan.travel_start_date }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="duracion_horas" class="form-label">⏰ Duración (horas):</label>
+                                    <input type="number" class="form-control" name="duracion_horas" min="1" max="8"
+                                        value="2" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="tutor" class="form-label">👨‍🏫 Tutor:</label>
+                            <select class="form-select" name="tutor" required>
+                                <option value="">Selecciona un tutor</option>
+                                {% for tutor in tutores %}
+                                <option value="{{ tutor.id }}">{{ tutor.nombre }} {{ tutor.apellido }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="plan" class="form-label">📝 Notas adicionales:</label>
+                            <textarea class="form-control" name="plan" rows="4"
+                                placeholder="Describe qué tipo de ayuda necesitas...">{{ plan.plan }}</textarea>
+                            <div class="form-text">
+                                <small class="text-muted">Explica detalladamente qué temas específicos quieres cubrir en
+                                    la asesoría.</small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="/citas" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save me-2"></i>Guardar Cambios
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .card {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        border: none;
+    }
+
+    .card-header {
+        border-radius: 12px 12px 0 0 !important;
+        border-bottom: 2px solid #ffc107;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #495057;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #ffc107;
+        box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+
+    .alert-info {
+        background-color: #d1ecf1;
+        border-left: 4px solid #bee5eb;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}Mi Compañero de Viaje{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h1>¡Hola, {{ usuario.nombre|capitalize }}! 🌟</h1>
+    <p class="lead text-muted">¿Qué reflexión te acompaña hoy en tu viaje?</p>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">📝 Comparte una reflexión inspiradora</h5>
+        </div>
+        <div class="card-body">
+            <form action="/citas/agregar" method="POST">
+                <div class="mb-3">
+                    <label for="cita" class="form-label">Tu reflexión del día:</label>
+                    <textarea name="cita" id="cita" class="form-control" rows="3"
+                        placeholder="Comparte algo que te inspire en tu viaje personal..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">✨ Compartir Reflexión</button>
+            </form>
+        </div>
+    </div>
+
+    <h2>💖 Mis Reflexiones Favoritas</h2>
+    <div class="row">
+        {% if citas_favoritas and citas_favoritas|length > 0 %}
+        {% for cita in citas_favoritas %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm border-warning">
+                <div class="card-body">
+                    <p class="card-text">"{{ cita.cita }}"</p>
+                    <p class="text-muted small">📅 Guardado el: {{ cita.creado_en | format_date }}</p>
+                    <hr>
+                    <a href="/citas/quitar_favorito/{{ cita.id }}" class="btn btn-outline-warning btn-sm">💔 Quitar de
+                        Favoritos</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="col-12">
+            <p class="alert alert-info">🌱 Aún no has guardado reflexiones favoritas. ¡Explora las que otros viajeros
+                han compartido!</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <h2>🌍 Reflexiones de Otros Viajeros</h2>
+    <div class="row">
+        {% for cita in citas %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <p class="card-text">"{{ cita.cita }}"</p>
+                    <p class="text-muted small">📅 Compartido el: {{ cita.creado_en | format_date }}</p>
+                    <hr>
+                    <a href="/citas/agregar_favorito/{{ cita.id }}" class="btn btn-success btn-sm me-2">💚 Guardar como
+                        Favorita</a>
+                    {% if cita.autor_id == session['usuario_id'] %}
+                    <a href="/citas/editar/{{ cita.id }}" class="btn btn-warning btn-sm me-2">✏️ Editar</a>
+                    <a href="/citas/borrar/{{ cita.id }}" class="btn btn-danger btn-sm">🗑️ Eliminar</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12">
+            <p class="alert alert-info">🔍 No hay reflexiones disponibles para mostrar. ¡Sé el primero en compartir!</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endblock %}

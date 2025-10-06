@@ -1,0 +1,290 @@
+/* Estilo profesional y acogedor para Compañero de Viaje */
+
+body {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    background-attachment: fixed;
+    font-family: 'Segoe UI', 'Inter', 'Roboto', Arial, sans-serif;
+    color: #2c3e50;
+    line-height: 1.6;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 12px;
+    padding: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+h1, h2, h3, h4, h5 {
+    color: #1a365d;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    color: #2d3748;
+    background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 2.2rem;
+}
+
+h2 {
+    color: #2d3748;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.card {
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(45, 55, 72, 0.1);
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+    background: #ffffff;
+}
+
+.card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(45, 55, 72, 0.15);
+    border-color: #cbd5e0;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(49, 130, 206, 0.2);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #2c5282 0%, #2a4365 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #d69e2e 0%, #b7791f 100%);
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(214, 158, 46, 0.2);
+}
+
+.btn-warning:hover {
+    background: linear-gradient(135deg, #b7791f 0%, #975a16 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(214, 158, 46, 0.3);
+    color: #ffffff;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(56, 161, 105, 0.2);
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #2f855a 0%, #276749 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(56, 161, 105, 0.3);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(229, 62, 62, 0.2);
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #c53030 0%, #9c2c2c 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
+}
+
+.btn-outline-warning {
+    color: #d69e2e;
+    border-color: #d69e2e;
+    border-width: 1.5px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-warning:hover {
+    background-color: #d69e2e;
+    border-color: #d69e2e;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(214, 158, 46, 0.3);
+}
+
+.btn-outline-danger {
+    color: #e53e3e;
+    border-color: #e53e3e;
+    border-width: 1.5px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-danger:hover {
+    background-color: #e53e3e;
+    border-color: #e53e3e;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(229, 62, 62, 0.3);
+}
+
+/* Navbar profesional */
+.navbar-dark {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #ffffff !important;
+    font-size: 1.3rem;
+}
+
+.navbar-brand:hover {
+    color: #f7fafc !important;
+}
+
+/* Formularios elegantes */
+.form-control {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+    outline: none;
+}
+
+/* Alertas mejoradas */
+.alert {
+    border: none;
+    border-radius: 10px;
+    font-weight: 500;
+    padding: 16px 20px;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+    color: #2a4365;
+    border-left: 4px solid #3182ce;
+}
+
+.alert-primary {
+    background: linear-gradient(135deg, #ebf4ff 0%, #c3dafe 100%);
+    color: #1a365d;
+    border-left: 4px solid #3182ce;
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, #fffaf0 0%, #faf089 100%);
+    color: #744210;
+    border-left: 4px solid #d69e2e;
+}
+
+/* Cards especiales */
+.card-header {
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    border-bottom: 1px solid #e2e8f0;
+    border-radius: 12px 12px 0 0 !important;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+/* Footer elegante - consistente en todas las páginas */
+footer {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+    border-top: 1px solid #dee2e6 !important;
+    border-radius: 12px 12px 0 0 !important;
+    color: #2d3748 !important;
+    font-weight: 500 !important;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Override específico para cualquier clase de Bootstrap */
+footer.bg-dark,
+footer.bg-light,
+footer[class*="bg-"] {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+}
+
+footer.text-white,
+footer.text-dark,
+footer[class*="text-"] {
+    color: #2d3748 !important;
+}
+
+/* Override específico para el span del copyright */
+footer span,
+footer .container span {
+    color: #2d3748 !important;
+}
+
+/* Espaciado y responsive */
+@media (max-width: 768px) {
+    .container {
+        margin: 10px;
+        padding: 20px;
+        border-radius: 8px;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+}
+
+.btn-outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+}
+
+/* Espaciado entre tarjetas - actualizado */
+.card + .card {
+    margin-top: 1.5rem;
+}
+
+/* Mejoras adicionales */
+.text-muted {
+    color: #718096 !important;
+}
+
+.lead {
+    color: #4a5568;
+    font-weight: 400;
+}
+
+/* Transiciones suaves para toda la aplicación */
+* {
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
